@@ -1,0 +1,75 @@
+# limitr
+
+`limitr` is a Go package to control the frequency and volume of requests sent to a system or service, to prevent overload, request throttling and protection against DDoS attacks.
+
+## Installation
+
+You can install the package using `go get`:
+
+```bash
+go get github.com/blessedmadukoma/limitr
+```
+
+## Setup
+
+Rename the `.env.example` to `.env` and replace the example environmental variables with your credentails
+
+## Usage:
+```go
+package main
+
+import (
+    "fmt"
+    zeptomail "github.com/blessedmadukoma/go-zeptomail"
+)
+
+func main() {
+  // smtp uses the ZeptoMail configurations provided in your dashboard. Store in .env file
+  smtp := zeptomail.SMTP{
+    Host: "smtp.zeptomail.com",
+    Port: 465,
+    Username: "zeptomailusername",
+    Password: "zeptomailpassword",
+    SenderEmail: "zeptomail@mail.com",
+  }
+
+  // payload for the send email request
+  data := zeptomail.MailData{
+    RecipientName:  "Your recepient name",
+    RecipientEmail: "email@mail.com",
+    TemplateFile:   "welcome.html",
+  }
+    
+  // creates a new zeptomail instance
+  client := zeptomail.New(smtp)
+
+  // sends the email to the recipient's email address and check for error if any
+  response, err := client.Send(data); 
+  if err != nil {
+      fmt.Println(err)
+      return
+  }
+
+  // print the response
+  log.Println(response)
+}
+
+```
+
+## Contributing
+
+If you'd like to contribute to this project, please follow these guidelines:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and test them thoroughly.
+4. Commit your changes with clear commit messages.
+5. Push your changes to your fork.
+6. Create a pull request to the main repository.
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+1. Thanks to ZeptoMail for providing the email-sending service.
+2. This project is maintained by [Blessed Madukoma](github.com/blessedmadukoma).
